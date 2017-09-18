@@ -338,8 +338,6 @@
     else
         leftItem = [[UIBarButtonItem alloc] initWithImage:self.closeButtonImage style:UIBarButtonItemStylePlain target:self action:@selector(close)];
 
-    
-    
     self.navigationItem.leftBarButtonItem = leftItem;
     self.navigationItem.title = NSLocalizedString(@"About", @"UINavigationBar Title");
 }
@@ -462,12 +460,15 @@
     NSString *subject = [NSString stringWithFormat:@"%@ %@", self.appName, self.appVersion];
     
     MFMailComposeViewController *mailController = [[MFMailComposeViewController alloc] init];
+    mailController.navigationBar.tintColor = self.navigationBarTintColor;
     mailController.mailComposeDelegate = self;
     if ([MFMailComposeViewController canSendMail]) {
         [mailController setSubject:subject];
         [mailController setMessageBody:messageString isHTML:YES];
         [mailController setToRecipients:@[self.contactEmail]];
-        [self presentViewController:mailController animated:YES completion:nil];
+        [self presentViewController:mailController animated:YES completion:^{
+                [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+        }];
     } else {
         __block NSString *supportText = [NSString stringWithFormat:@"\"%@ Version %@ (%@), %@ (%@), iOS %@ (%@)\"",self.appName, self.appVersion, self.appBuild, device, deviceString, iosVersion, lang];
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Cannot send Email",@"Cannot send Email") message:[NSString stringWithFormat:NSLocalizedString(@"Unfortunately there are no Email accounts available on your device.\n\nFor support questions, please send an Email to %@ and include the following information: %@.\n\nTab the 'Copy info' button to copy this information to your pasteboard. Thank you!", @"Error message: no email accounts available"), self.contactEmail, supportText, lang] preferredStyle:UIAlertControllerStyleAlert];
