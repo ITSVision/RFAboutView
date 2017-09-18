@@ -83,6 +83,7 @@
         _websiteURLTitle = websiteURLTitle;
         _copyrightHolderName = copyrightHolderName;
         _websiteURL = websiteURL;
+        _pubYear = pubYear;
         
         if (!appName) _appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"];
         if (!appVersion) _appVersion = [[NSBundle mainBundle] infoDictionary][@"CFBundleShortVersionString"];
@@ -330,9 +331,14 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithImage:self.closeButtonImage style:UIBarButtonItemStylePlain target:self action:@selector(close)];
+    UIBarButtonItem *leftItem;
+    
+    if (_leftBarButton)
+        leftItem = _leftBarButton;
+    else
+        leftItem = [[UIBarButtonItem alloc] initWithImage:self.closeButtonImage style:UIBarButtonItemStylePlain target:self action:@selector(close)];
 
-    self.navigationController.navigationBar.titleTextAttributes = @{ NSForegroundColorAttributeName: self.navigationBarTitleTextColor };
+    
     
     self.navigationItem.leftBarButtonItem = leftItem;
     self.navigationItem.title = NSLocalizedString(@"About", @"UINavigationBar Title");

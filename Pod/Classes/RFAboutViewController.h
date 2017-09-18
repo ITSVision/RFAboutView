@@ -205,6 +205,11 @@
  */
 @property (nonatomic, strong) UIFont *fontLicenseText;
 
+/*!
+ *  Left bar button
+ *
+ */
+@property (nonatomic, strong) UIBarButtonItem *leftBarButton;
 
 /**
  *  Protocol
